@@ -35,6 +35,7 @@ class HubClient {
         broadcast
     }) {
         return new Promise((resolve, reject) => {
+            this.logger.log('Application service');
             const sConnectionString = protocol + '://' + host + ':' + port;
             this.logger.log('connecting to service hub', sConnectionString);
             const socket = io.connect(sConnectionString);
@@ -43,14 +44,14 @@ class HubClient {
                 this._connectedToServer(socket);
                 resolve(true);
             });
-            socket.on(PROTO.SC_BROADCAST, ({room, type, payload}) => {
-                broadcast(room, type, payload);
+            socket.on(PROTO.SC_BROADCAST, ({sender, room, type, payload}) => {
+                broadcast(sender, room, type, payload);
             });
         });
     }
 
-    broadcast(room, type, payload) {
-        this._socket.emit(PROTO.CS_BROADCAST, {room, type, payload});
+    broadcast(sender, room, type, payload) {
+        this._socket.emit(PROTO.CS_BROADCAST, {sender, room, type, payload});
     }
 }
 

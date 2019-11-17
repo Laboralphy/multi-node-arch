@@ -1,6 +1,4 @@
 // multiple node process architecture
-
-
 const ServiceHub = require('./libs/service-hub');
 
 const sh = new ServiceHub.Hub();

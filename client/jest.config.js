@@ -1,3 +1,3 @@
 module.exports = {
-  preset: '@vue/cli-plugin-unit-jest/presets/no-babel'
+  preset: '@vue/cli-plugins-unit-jest/presets/no-babel'
 }

@@ -33,10 +33,16 @@ class Hub {
         });
 
         // when client wants to broadcast a message
-        socket.on(protocol.CS_BROADCAST, ({room, type, payload}) => {
+        socket.on(protocol.CS_BROADCAST, ({sender, room, type, payload}) => {
             for (let id in this._hubClients) {
                 const oClient = this._hubClients[id];
-                oClient.emit('broadcast', {room, type, payload});
+                const bNodeSender = id === clientId;
+                oClient.emit(protocol.SC_BROADCAST, {
+                    sender: {
+                        myself: bNodeSender,
+                        node: clientId,
+                        client: sender
+                    }, room, type, payload});
             }
         });
     }
@@ -49,7 +55,7 @@ class Hub {
             this._port = port;
             const oServerSocket = io.listen(port);
             this._io = oServerSocket;
-            this.logger.log('listening on port', port);
+            this.logger.log('service hub : listening on port', port);
             oServerSocket.on('connection', socket => {
                 this._hubClientConnected(socket);
                 resolve(true);

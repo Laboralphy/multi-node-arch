@@ -1,7 +1,7 @@
 const ServiceApp = require('../libs/service-hub/ServiceApp');
 const path = require('path');
 
-class App extends ServiceApp {
+class Application extends ServiceApp {
     start() {
         super.start({
             hub: {
@@ -17,13 +17,10 @@ class App extends ServiceApp {
     connection(socket) {
         super.connection(socket);
         // this client will join room u1
-
-        console.log(this.getClientRooms(socket));
         socket.on('cs-chat-message', ({content}) => {
-            this.broadcast('u1', 'chat-message', {content});
+            this.broadcast(socket, 'u1', 'sc-chat-message', {content});
         });
     }
 }
 
-const oApplication = new App();
-oApplication.start();
+module.exports = Application;

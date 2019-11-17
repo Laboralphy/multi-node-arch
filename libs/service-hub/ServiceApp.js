@@ -25,13 +25,31 @@ class ServiceApp {
         });
     }
 
-    broadcastReturn(room, type, payload) {
-        // this function is intended to be overriden
-        this.logger.log('bc', room, type, payload);
+    /**
+     * send back broadcast
+     * @param sender {Socket}
+     * @param room
+     * @param type
+     * @param payload
+     */
+    broadcastReturn(sender, room, type, payload) {
+        const {myself, node, client} = sender;
+        let oSocket = myself ? this._clients[client] : this._wss;
+        if (!!room) {
+            oSocket = oSocket.to(room);
+        }
+        oSocket.emit(type, payload);
     }
 
-    broadcast(room, type, payload) {
-        this._hub.broadcast(room, type, payload);
+    /**
+     * sends an event to the hub
+     * @param senderSocket
+     * @param room
+     * @param type
+     * @param payload
+     */
+    broadcast(senderSocket, room, type, payload) {
+        this._hub.broadcast(senderSocket.id, room, type, payload);
     }
 
     start(options) {
@@ -43,11 +61,10 @@ class ServiceApp {
         const oApplication = express();
         const oWebServer = http.createServer(oApplication);
         oWebServer.listen(options.port);
-        this.logger.log('listening on port', options.port);
+        this.logger.log('http service : listening on port', options.port);
 
         // routes
         oApplication.get('/*', express.static(options.index));
-
 
         // websocket init
         const oWebSocketServer = io(oWebServer);

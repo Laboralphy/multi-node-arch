@@ -1,6 +1,6 @@
 import * as MUTATIONS from './mutation-types';
 
-let LAST_MESSAGE_ID = 0;
+let LAST_MESSAGE_ID = 10;
 
 export default {
     [MUTATIONS.POST_MESSAGE]: (state, {name, content}) => {

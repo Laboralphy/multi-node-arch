@@ -1,0 +1,2 @@
+export const SET_CONNECTED = 'SET_CONNECTED';
+export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
