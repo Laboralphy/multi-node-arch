@@ -45,6 +45,7 @@ class HubClient {
                 resolve(true);
             });
             socket.on(PROTO.SC_BROADCAST, ({sender, room, type, payload}) => {
+                console.log('receveid back from hub');
                 broadcast(sender, room, type, payload);
             });
         });

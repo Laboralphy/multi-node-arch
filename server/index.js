@@ -18,7 +18,7 @@ class Application extends ServiceApp {
         super.connection(socket);
         // this client will join room u1
         socket.on('cs-chat-message', ({content}) => {
-            this.broadcast(socket, 'u1', 'sc-chat-message', {content});
+            this.broadcast(socket, null, 'sc-chat-message', {content});
         });
     }
 }

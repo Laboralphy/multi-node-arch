@@ -21,7 +21,7 @@ class ServiceApp {
         await this._hub.connect({
             host: options.hub.host,
             port: options.hub.port,
-            broadcast: (room, type, payload) => this.broadcastReturn(room, type, payload)
+            broadcast: (sender, room, type, payload) => this.broadcastReturn(sender, room, type, payload)
         });
     }
 
@@ -33,6 +33,7 @@ class ServiceApp {
      * @param payload
      */
     broadcastReturn(sender, room, type, payload) {
+        console.log('broad cast return', sender, room, type, payload)
         const {myself, node, client} = sender;
         let oSocket = myself ? this._clients[client] : this._wss;
         if (!!room) {

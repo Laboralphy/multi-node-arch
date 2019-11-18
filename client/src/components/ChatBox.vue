@@ -12,7 +12,7 @@
     import {createNamespacedHelpers, mapActions} from 'vuex';
     import * as NET_ACTIONS from '../store/net/action-types';
 
-    const {netMapActions} = createNamespacedHelpers('net');
+    const {mapActions: netMapActions} = createNamespacedHelpers('net');
 
 
     export default {
@@ -24,9 +24,10 @@
             }
         },
         methods: {
-            ...mapActions('net', {
+            ...netMapActions({
                 sendMessage: NET_ACTIONS.SEND_MESSAGE
             }),
+
             postMessage: function() {
                 const sMessage = this.message;
                 this.message = '';
